@@ -1,0 +1,128 @@
+# .bashrc - public
+
+### aliases ###
+alias sb='source $HOME/.bashrc'
+
+alias ..='cd ..'
+alias ...='cd .. && cd ..'
+alias ....='cd .. && cd .. && cd ..'
+
+alias l='ls'
+alias ll='ls -l'
+alias lrt='ls -lrt'
+
+alias la='ls -A'
+alias lal='ls -lA'
+alias lart='ls -lArt'
+
+alias l.='ls -d .*'
+
+alias c='clear'
+alias f='find'
+alias h='history'
+
+alias rm='rm -i'
+
+alias t='tail'
+alias tf='tail -f'
+alias tF='tail -F'
+
+alias df='df -m'
+alias ds='du --max-depth=1'
+alias dss='du -S --max-depth=1'
+
+# grep #
+alias g='grep'
+alias gi='grep -i'
+alias gr='grep -R'
+alias gir='grep -iR'
+
+alias gv='grep -v'
+alias giv='grep -iv'
+alias girv='grep -ivR'
+
+# TODO: install/configure ack
+alias gcnc="egrep -v \'^\w*#|^\w*$\'"
+alias gsvn="grep -v '\.svn'"
+
+alias grep='grep --color'
+export GREP_OPTIONS='--color=auto'
+
+# git #
+function _gcr() {
+    which git >/dev/null 2>&1
+    if [ "$?" -ne 0 ]; then
+        echo "git not found!"
+        return
+    fi
+    GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+    if [ "$?" -eq 0 ]; then
+        cd $GIT_ROOT
+    else
+        echo "not in a git repo!"
+    fi
+}
+
+alias gst="git status"
+alias gdi="git diff"
+alias gdic="git diff --cached"
+alias ga="git add"
+alias glog="git log"
+alias gci="git commit"
+alias gbr="git branch"
+alias gcr="_gcr"
+alias cgr="_gcr"
+
+# tmux #
+function _tda() {
+    tmux detach -s $1
+    tmux attach -t $1
+}
+
+alias tls="tmux ls"
+alias tns="tmux new-session -s"
+alias ta="tmux attach -t"
+alias td="tmux detach -s"
+alias tda="_tda"
+
+
+### other environment variables ###
+# TERM
+if [ "$TERM" == "xterm" ]; then
+    export TERM="xterm-256color"
+fi
+
+# add $HOME/bin to PATH
+# http://stackoverflow.com/questions/1396066/detect-if-users-path-has-a-specific-directory-in-it
+if [[ ":$PATH:" == *":$HOME/bin:"* ]]; then
+    export PATH=$PATH:$HOME/bin
+fi
+
+
+function set_term_title() {
+   echo -en "\033]0;$1\a"
+}
+
+function iev() {
+    CMD=$1; shift
+    for i in $@; do { echo $i; $CMD $i; } done
+}
+
+function sshdiff() {
+    if [ -z "$1" ]; then
+        echo "Usage: sshdiff host file [args to diff]"
+    else
+        host=$1; shift
+        file=$1; shift
+        args=$@
+        ssh $host cat $file | diff $file $args -
+    fi
+}
+function sdmn() {
+    sshdiff adechiar-mn2 $@
+}
+function sdld() {
+    sshdiff adechiar-ld1 $@
+}
+
+

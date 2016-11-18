@@ -70,6 +70,7 @@ alias ga="git add"
 alias glog="git log"
 alias gci="git commit"
 alias gbr="git branch"
+alias gpom="git pull origin master"
 alias gcr="_gcr"
 alias cgr="_gcr"
 

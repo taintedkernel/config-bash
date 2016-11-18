@@ -1,0 +1,4 @@
+*
+!/.bashrc.public
+!/.gitignore.d
+!/.gitignore.d/bash

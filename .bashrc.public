@@ -87,29 +87,56 @@ alias ta="tmux attach -t"
 alias td="tmux detach -s"
 alias tda="_tda"
 
+## distro-specific ##
+# package manager #
+if [ -x "/usr/bin/apt-get" ]; then
+    alias acs="apt-cache search"
+    alias agi="sudo apt-get install"
+fi
+if [ -x "/usr/bin/yum" ]; then
+    alias ys="sudo yum search"
+    alias yi="sudo yum install"
+fi
+
 
 ### other environment variables ###
-# TERM
-if [ "$TERM" == "xterm" ]; then
-    export TERM="xterm-256color"
+# set TERM
+if [ $TERM == "xterm" -o "$COLORTERM" == "gnome-terminal" ]; then
+    export TERM=xterm-256color
 fi
 
 # add $HOME/bin to PATH
 # http://stackoverflow.com/questions/1396066/detect-if-users-path-has-a-specific-directory-in-it
-if [[ ":$PATH:" == *":$HOME/bin:"* ]]; then
-    export PATH=$PATH:$HOME/bin
+if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+    export PATH="$HOME/bin:$PATH"
 fi
 
+## history ##
+# ignore stuff, set history size
+HISTCONTROL=ignoredups:ignorespace
+HISTIGNORE=ls:ll:la:cd:pwd:exit:clear:bg
+HISTSIZE=100000
+HISTFILESIZE=100000
 
+# save multi-line commands as one
+shopt -s cmdhist
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+
+### functions ###
 function set_term_title() {
    echo -en "\033]0;$1\a"
 }
 
+# perform call $1 for each argument that follows
 function iev() {
     CMD=$1; shift
     for i in $@; do { echo $i; $CMD $i; } done
 }
 
+# diff a file via SSH
 function sshdiff() {
     if [ -z "$1" ]; then
         echo "Usage: sshdiff host file [args to diff]"

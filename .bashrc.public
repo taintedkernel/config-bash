@@ -46,7 +46,7 @@ alias gcnc="egrep -v \'^\w*#|^\w*$\'"
 alias gsvn="grep -v '\.svn'"
 
 alias grep='grep --color'
-export GREP_OPTIONS='--color=auto'
+# export GREP_OPTIONS='--color=auto'     # deprecated
 
 # git #
 function _gcr() {

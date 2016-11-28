@@ -63,13 +63,14 @@ function _gcr() {
     fi
 }
 
+alias gco="git checkout"
+alias gbr="git branch"
 alias gst="git status"
 alias gdi="git diff"
 alias gdic="git diff --cached"
 alias ga="git add"
 alias glog="git log"
 alias gci="git commit"
-alias gbr="git branch"
 alias glom="git pull origin master"
 alias gsom="git push origin master"
 alias gcr="_gcr"

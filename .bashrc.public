@@ -124,6 +124,10 @@ if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
     export PATH="$HOME/bin:$PATH"
 fi
 
+# editor
+export EDITOR=vim
+
+
 ## history ##
 # ignore stuff, set history size
 HISTCONTROL=ignoredups:ignorespace
@@ -160,11 +164,4 @@ function sshdiff() {
         ssh $host cat $file | diff $file $args -
     fi
 }
-function sdmn() {
-    sshdiff adechiar-mn2 $@
-}
-function sdld() {
-    sshdiff adechiar-ld1 $@
-}
-
 

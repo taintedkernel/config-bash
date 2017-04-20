@@ -48,6 +48,11 @@ alias gsvn="grep -v '\.svn'"
 alias grep='grep --color'
 # export GREP_OPTIONS='--color=auto'     # deprecated
 
+# If we've installed GNU coreutils with brew, configure
+if [ `uname` == "Darwin" -a `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
+    alias ls='ls --color'
+fi
+
 # git #
 function _gcr() {
     which git >/dev/null 2>&1

@@ -51,6 +51,7 @@ alias grep='grep --color'
 # If we've installed GNU coreutils with brew, configure
 if [ `uname` == "Darwin" -a `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
     alias ls='ls --color'
+    alias less='less -R'
 fi
 
 # git #

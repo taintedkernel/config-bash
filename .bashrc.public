@@ -120,6 +120,9 @@ alias ta="tmux attach -t"
 alias td="tmux detach -s"
 alias tda="_tda"
 
+# ssh #
+alias ssa="eval `ssh-agent -s`"
+
 ## distro-specific ##
 # package manager #
 if [ -x "/usr/bin/apt-get" ]; then

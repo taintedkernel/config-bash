@@ -41,13 +41,25 @@ alias gv='grep -v'
 alias giv='grep -iv'
 alias girv='grep -ivR'
 
-# TODO: install/configure ack
 alias gcnc="egrep -v \'^\w*#|^\w*$\'"
 alias gsvn="grep -v '\.svn'"
 
 alias grep='grep --color'
 # export GREP_OPTIONS='--color=auto'     # deprecated
 
+# ack #
+# TODO: install/configure ack with config mgmt?
+alias a="ack"
+alias ai="ack -i"
+alias aq="ack -Q"
+alias aiq="ack -iQ"
+
+alias av="ack -v"
+alias aiv="ack -iv"
+alias aqv="ack -Qv"
+alias aiqv="ack -iQv"
+
+# Platform-specific stuff #
 # If we've installed GNU coreutils with brew, configure
 if [ `uname` == "Darwin" -a `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
     alias ls='ls --color'

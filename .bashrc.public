@@ -109,14 +109,35 @@ function _vs() {
 alias vs="_vs"
 
 # tmux #
+function _ta() {
+    if [ `tmux ls | wc -l` -eq 1 ]; then
+        tmux attach
+    elif [ "$1" == "" ]; then
+        echo "[error] no session specified!"
+        echo "Current sessions:"
+        tmux ls
+    else
+        tmux attach -t $1
+    fi
+
+}
 function _tda() {
-    tmux detach -s $1
-    tmux attach -t $1
+    if [ `tmux ls | wc -l` -eq 1 ]; then
+        tmux detach
+        tmux attach
+    elif [ "$1" == "" ]; then
+        echo "[error] no session specified!"
+        echo "Current sessions:"
+        tmux ls
+    else
+        tmux detach -s $1
+        tmux attach -t $1
+    fi
 }
 
 alias tls="tmux ls"
 alias tns="tmux new-session -s"
-alias ta="tmux attach -t"
+alias ta="_ta"
 alias td="tmux detach -s"
 alias tda="_tda"
 

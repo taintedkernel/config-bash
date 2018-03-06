@@ -51,15 +51,15 @@ alias grep='grep --color'
 
 # ack #
 # TODO: install/configure ack with config mgmt?
-alias a="ack"
-alias ai="ack -i"
-alias aq="ack -Q"
-alias aiq="ack -iQ"
+alias a='ack'
+alias ai='ack -i'
+alias aq='ack -Q'
+alias aiq='ack -iQ'
 
-alias av="ack -v"
-alias aiv="ack -iv"
-alias aqv="ack -Qv"
-alias aiqv="ack -iQv"
+alias av='ack -v'
+alias aiv='ack -iv'
+alias aqv='ack -Qv'
+alias aiqv='ack -iQv'
 
 # Platform-specific stuff #
 if [ `uname` == "Darwin" ]; then
@@ -92,24 +92,24 @@ function _gcr() {
     fi
 }
 
-alias gco="git checkout"
-alias gbr="git branch"
-alias gbra="git branch -a"
-alias gst="git status"
-alias gdi="git diff"
-alias gdic="git diff --cached"
-alias gdit="git difftool"
-alias gditc="git difftool --cached"
-alias ga="git add"
-alias gau="git add -u"
-alias glog="git glog"
-alias gci="git commit"
-alias grm="git remote"
-alias grmv="git remote -v"
-alias glom="git pull origin master"
-alias gsom="git push origin master"
-alias gcr="_gcr"
-alias cgr="_gcr"
+alias gco='git checkout'
+alias gbr='git branch'
+alias gbra='git branch -a'
+alias gst='git status'
+alias gdi='git diff'
+alias gdic='git diff --cached'
+alias gdit='git difftool'
+alias gditc='git difftool --cached'
+alias ga='git add'
+alias gau='git add -u'
+alias glog='git glog'
+alias gci='git commit'
+alias grm='git remote'
+alias grmv='git remote -v'
+alias glom='git pull origin master'
+alias gsom='git push origin master'
+alias gcr='_gcr'
+alias cgr='_gcr'
 
 # vcsh #
 function _vs() {
@@ -120,7 +120,7 @@ function _vs() {
     fi
     vcsh $1 status
 }
-alias vs="_vs"
+alias vs='_vs'
 
 # tmux #
 function _ta() {
@@ -149,24 +149,24 @@ function _tda() {
     fi
 }
 
-alias tls="tmux ls"
-alias tns="tmux new-session -s"
-alias ta="_ta"
-alias td="tmux detach -s"
-alias tda="_tda"
+alias tls='tmux ls'
+alias tns='tmux new-session -s'
+alias ta='_ta'
+alias td='tmux detach -s'
+alias tda='_tda'
 
 # ssh #
-alias ssa="eval `ssh-agent -s`"
+alias ssa='eval `ssh-agent -s`'
 
 ## distro-specific ##
 # package manager #
 if [ -x "/usr/bin/apt-get" ]; then
-    alias acs="apt-cache search"
-    alias agi="sudo apt-get install"
+    alias acs='apt-cache search'
+    alias agi='sudo apt-get install'
 fi
 if [ -x "/usr/bin/yum" ]; then
-    alias ys="sudo yum search"
-    alias yi="sudo yum install"
+    alias ys='sudo yum search'
+    alias yi='sudo yum install'
 fi
 
 

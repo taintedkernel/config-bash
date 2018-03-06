@@ -13,6 +13,7 @@ alias lrt='ls -lrt'
 
 alias la='ls -A'
 alias lal='ls -lA'
+alias lla='ls -lA'
 alias lart='ls -lArt'
 
 alias l.='ls -d .*'
@@ -20,6 +21,7 @@ alias l.='ls -d .*'
 alias c='clear'
 alias f='find'
 alias h='history'
+alias sl='less'
 
 alias rm='rm -i'
 
@@ -28,8 +30,8 @@ alias tf='tail -f'
 alias tF='tail -F'
 
 alias df='df -m'
-alias ds='du --max-depth=1'
-alias dss='du -S --max-depth=1'
+alias ds='du -k --max-depth=1'
+alias dss='du -Sk --max-depth=1'
 
 # grep #
 alias g='grep'
@@ -41,7 +43,7 @@ alias gv='grep -v'
 alias giv='grep -iv'
 alias girv='grep -ivR'
 
-alias gcnc="egrep -v \'^\w*#|^\w*$\'"
+alias gcnc="egrep -v '^\w*#|^\w*\$'"
 alias gsvn="grep -v '\.svn'"
 
 alias grep='grep --color'
@@ -60,10 +62,19 @@ alias aqv="ack -Qv"
 alias aiqv="ack -iQv"
 
 # Platform-specific stuff #
-# If we've installed GNU coreutils with brew, configure
-if [ `uname` == "Darwin" -a `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
-    alias ls='ls --color'
-    alias less='less -R'
+if [ `uname` == "Darwin" ]; then
+    # If using BSD, change defaults from GNU
+    if [ `which du` != "/usr/local/opt/coreutils/libexec/gnubin/du" ]; then
+        alias du='du -k'
+        alias ds='du -k -d 1'
+        unalias dss
+    fi
+
+    # If we've installed GNU coreutils with brew, configure
+    if [ `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
+        alias ls='ls --color'
+        alias less='less -R'
+    fi
 fi
 
 # git #
@@ -83,6 +94,7 @@ function _gcr() {
 
 alias gco="git checkout"
 alias gbr="git branch"
+alias gbra="git branch -a"
 alias gst="git status"
 alias gdi="git diff"
 alias gdic="git diff --cached"
@@ -92,6 +104,8 @@ alias ga="git add"
 alias gau="git add -u"
 alias glog="git glog"
 alias gci="git commit"
+alias grm="git remote"
+alias grmv="git remote -v"
 alias glom="git pull origin master"
 alias gsom="git push origin master"
 alias gcr="_gcr"
@@ -184,6 +198,10 @@ shopt -s cmdhist
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+
+
+# unfuck BSD defaults #
+BLOCKSIZE=1024
 
 
 ### functions ###

@@ -124,6 +124,10 @@ alias vs='_vs'
 
 # tmux #
 function _ta() {
+    tmux ls >/dev/null
+    if [ "$?" -ne 0 ]; then
+        return
+    fi
     if [ `tmux ls | wc -l` -eq 1 ]; then
         tmux attach
     elif [ "$1" == "" ]; then
@@ -136,6 +140,10 @@ function _ta() {
 
 }
 function _tda() {
+    tmux ls >/dev/null
+    if [ "$?" -ne 0 ]; then
+        return
+    fi
     if [ `tmux ls | wc -l` -eq 1 ]; then
         tmux detach
         tmux attach

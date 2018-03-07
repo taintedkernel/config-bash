@@ -112,15 +112,15 @@ alias gcr='_gcr'
 alias cgr='_gcr'
 
 # vcsh #
-function _vs() {
-    which vcsh >/dev/null 2>&1
-    if [ "$?" -ne 0 ]; then
-        echo "vcsh not found!"
-        return
-    fi
-    vcsh $1 status
-}
-alias vs='_vs'
+#function _vs() {
+#    which vcsh >/dev/null 2>&1
+#    if [ "$?" -ne 0 ]; then
+#        echo "vcsh not found!"
+#        return
+#    fi
+#    vcsh $1 status
+#}
+#alias vs='_vs'
 
 # tmux #
 function _ta() {

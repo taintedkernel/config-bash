@@ -21,9 +21,11 @@ alias l.='ls -d .*'
 alias c='clear'
 alias f='find'
 alias h='history'
-alias sl='less'
 
 alias rm='rm -i'
+
+alias sl='less -R'
+alias less='less -R'
 
 alias t='tail'
 alias tf='tail -f'
@@ -71,9 +73,10 @@ if [ `uname` == "Darwin" ]; then
     fi
 
     # If we've installed GNU coreutils with brew, configure
+    # This requires PATH to be modified to set coreutils to default 'ls'
+    # TODO: Detect brew coreutils, findutils, etc & configure PATH/MANPATH automatically
     if [ `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
         alias ls='ls --color'
-        alias less='less -R'
     fi
 fi
 

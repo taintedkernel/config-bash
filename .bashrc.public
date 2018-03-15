@@ -115,6 +115,13 @@ alias gsom='git push origin master'
 alias gcr='_gcr'
 alias cgr='_gcr'
 
+function gsomv() {
+    KEY=$(ls -1 $HOME/.ssh/id_github* | grep -v '\.pub')
+    ssh-add $KEY
+    git push origin master
+    ssh-add -d $KEY
+}
+
 # vcsh #
 #function _vs() {
 #    which vcsh >/dev/null 2>&1

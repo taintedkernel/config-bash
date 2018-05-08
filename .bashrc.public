@@ -11,13 +11,61 @@ alias ....='cd .. && cd .. && cd ..'
 alias l='ls'
 alias ll='ls -l'
 alias lrt='ls -lrt'
-
 alias la='ls -A'
 alias lal='ls -lA'
 alias lla='ls -lA'
 alias lart='ls -lArt'
-
 alias l.='ls -d .*'
+
+# If we've installed GNU coreutils and set default, configure
+if [ `uname` == "Darwin" ]; then
+    CORE_PATH="/usr/local/opt/coreutils/libexec/gnubin"
+    FIND_PATH="/usr/local/opt/findutils/libexec/gnubin"
+    TAR_PATH="/usr/local/opt/gnu-tar/libexec/gnubin"
+    SED_PATH="/usr/local/opt/gnu-sed/libexec/gnubin"
+    EXTRA_PATHS="/usr/local/opt/gettext/bin /usr/local/opt/gnu-getopt/bin"
+    UTIL_PATHS="$EXTRA_PATHS $SED_PATH $TAR_PATH $FIND_PATH $CORE_PATH"
+
+    #
+    # TODO: Insert check to see if these PATHs are already present,
+    # but in the wrong position (at end/after default /usr/bin:/bin)
+    # This can happen on OS/X if we execute a bash shell after
+    # another login shell (eg: system configured to use fish,
+    # but another process brings us to bash shell - vcsh comes
+    # to mind)
+    #
+    # It is too difficult to rearrange the PATH if necessary with
+    # bash.  A quick hack is to edit /etc/profile on OS/X and set
+    # the PATH="" before path_helper is invoked, this way it will
+    # have a "clean slate" and the PATHs desired here will not
+    # be present when execution arrives here, and thus will be
+    # placed in their correct positions
+    #
+
+    # Dynamically configure missing PATHs
+    # As mentioned above, this will NOT detect conditions
+    # where the PATHs are present, but in the wrong priority
+    for P in $UTIL_PATHS;
+    do {
+        # http://stackoverflow.com/questions/1396066/detect-if-users-path-has-a-specific-directory-in-it
+        if [[ ":$PATH:" != *":$P:"* ]]; then
+            if [ -d "$P" ]; then
+                export PATH="$P:$PATH"
+
+                # Being lazy here
+                MP=$(echo $P | sed 's/gnubin/gnuman/g')
+                if [ -d "$MP" ]; then
+                    export MANPATH="$MP:$MANPATH"
+                fi
+            fi
+        fi
+    } done
+    echo $PATH
+
+    if [ `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
+        alias ls='ls --color'
+    fi
+fi
 
 alias c='clear'
 alias f='find'
@@ -25,18 +73,32 @@ alias h='history'
 
 alias rm='rm -i'
 
-alias sl='less -R'
 alias less='less -R'
+alias sl='less'
 
 alias t='tail'
 alias tf='tail -f'
 alias tF='tail -F'
 
+# df in MiB, du in KiB
 alias df='df -m'
-alias ds='du -k --max-depth=1'
-alias dss='du -Sk --max-depth=1'
+alias du='du -k'
+
+alias dud='du -d 1'
+
+# Platform/utils specific settings
+# Only GNU du supports '-S' for separate-dirs
+if [ `uname` == "Darwin" ]; then
+    if [ `which du` == "/usr/local/opt/coreutils/libexec/gnubin/du" ]; then
+        alias duds='du -S -d 1'
+    fi
+else
+    alias duds='du -S -d 1'
+fi
 
 # grep #
+alias grep='grep --color=auto'
+
 alias g='grep'
 alias gi='grep -i'
 alias gr='grep -R'
@@ -48,8 +110,6 @@ alias girv='grep -ivR'
 
 alias gcnc="egrep -v '^\w*#|^\w*\$'"
 alias gsvn="grep -v '\.svn'"
-
-alias grep='grep --color'
 # export GREP_OPTIONS='--color=auto'     # deprecated
 
 # ack #
@@ -64,25 +124,8 @@ alias aiv='ack -iv'
 alias aqv='ack -Qv'
 alias aiqv='ack -iQv'
 
-# Platform-specific stuff #
-if [ `uname` == "Darwin" ]; then
-    # If using BSD, change defaults from GNU
-    if [ `which du` != "/usr/local/opt/coreutils/libexec/gnubin/du" ]; then
-        alias du='du -k'
-        alias ds='du -k -d 1'
-        unalias dss
-    fi
-
-    # If we've installed GNU coreutils with brew, configure
-    # This requires PATH to be modified to set coreutils to default 'ls'
-    # TODO: Detect brew coreutils, findutils, etc & configure PATH/MANPATH automatically
-    if [ `which ls` == "/usr/local/opt/coreutils/libexec/gnubin/ls" ]; then
-        alias ls='ls --color'
-    fi
-fi
-
 # git #
-function _gcr() {
+function gcr() {
     which git >/dev/null 2>&1
     if [ "$?" -ne 0 ]; then
         echo "git not found!"
@@ -97,6 +140,7 @@ function _gcr() {
 }
 
 alias gco='git checkout'
+alias gcob='git checkout -b'
 alias gbr='git branch'
 alias gbra='git branch -a'
 alias gst='git status'
@@ -113,8 +157,8 @@ alias grm='git remote'
 alias grmv='git remote -v'
 alias glom='git pull origin master'
 alias gsom='git push origin master'
-alias gcr='_gcr'
-alias cgr='_gcr'
+#alias gcr='_gcr'
+#alias cgr='_gcr'
 
 # Helper function to git push with temporary permissions,
 # in case you don't want to leave the unlocked key in your keyring
